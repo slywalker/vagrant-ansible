@@ -1,0 +1,11 @@
+---
+- name: set root password percona
+  mysql_user: name=root host={{ item }} password=pass
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: restart mysql
+  service: name=mysql state=restarted

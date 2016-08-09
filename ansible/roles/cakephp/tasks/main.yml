@@ -9,4 +9,6 @@
 
 - name: Create Symlink
   action: file src=/vagrant/apps/app dest=/vagrant/www state=link
-  notify: reload nginx
+  notify:
+    - reload nginx
+    - restart php-fpm

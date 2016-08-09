@@ -11,12 +11,12 @@
 - name: Install Percona Server and Client
   apt: pkg={{ item }} state=present
   with_items:
+    - python-mysqldb
     - percona-server-common-5.5
     - percona-server-server-5.5
     - percona-server-client-5.5
+  notify:
+    - set root password percona
 
 - name: Start Percona Server
   service: name=mysql state=started enabled=true
-
-- name: Set root MySQL password
-  command: mysqladmin -u root password pass
