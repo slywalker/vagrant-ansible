@@ -1,3 +1,6 @@
 [submodule "ansible/roles/bennojoy.nginx"]
 	path = ansible/roles/bennojoy.nginx
 	url = https://github.com/bennojoy/nginx.git
+[submodule "ansible/roles/repleo.nginx"]
+	path = ansible/roles/repleo.nginx
+	url = git@github.com:repleo/ansible-role-nginx.git

@@ -1,36 +1,36 @@
 ---
 - name: Add PPA
-  apt_repository: repo="ppa:ondrej/php5"
+  apt_repository: repo="ppa:ondrej/php"
 
 - name: Install PHP and Dependencies
   apt: pkg={{ item }} state=present
   with_items:
-    - php5-fpm
-    - php5-cli
-    - php5-common
-    - php5-curl
-    - php5-gd
-    - php5-geoip
-    - php5-gmp
-    - php5-imagick
-    - php5-intl
-    - php5-json
-    - php5-mcrypt
-    - php5-memcache
-    - php5-memcached
-    - php5-redis
-    - php5-mysql
-    - php5-xdebug
-    - php5-sqlite
-    - php-apc
-    - php-pear
+    - php7.0-cli
+    - php7.0-common
+    - php7.0-curl
+    - php7.0-fpm
+    - php7.0-gd
+    - php7.0-geoip
+    - php7.0-gmp
+    - php7.0-imagick
+    - php7.0-intl
+    - php7.0-json
+    - php7.0-mbstring
+    - php7.0-mcrypt
+    - php7.0-memcache
+    - php7.0-memcached
+    - php7.0-mysql
+    - php7.0-opcache
+    - php7.0-redis
+    - php7.0-sqlite3
+    - php7.0-xdebug
 
 - name: Install Composer
   get_url: url=https://getcomposer.org/composer.phar dest=/usr/local/bin/composer mode=0755 validate_certs=no
 
 - name: Copy pool configuration
-  template: src=www.conf dest=/etc/php5/fpm/pool.d/
+  template: src=www.conf dest=/etc/php/7.0/fpm/pool.d/
   notify: restart php-fpm
 
 - name: Start php-fpm
-  service: name=php5-fpm state=started enabled=true
+  service: name=php7.0-fpm state=started enabled=true

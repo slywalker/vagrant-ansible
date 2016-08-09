@@ -2,21 +2,19 @@
 - name: Deploys the whole software stack for a CakePHP application
   hosts: development
   user: vagrant
-  sudo: yes
+  become: yes
 
   vars_prompt:
-
-  - name: "cakephp_version"
-    prompt: "What version of CakePHP do you want to deploy? (2 or 3)?"
-    default: "2"
+    - name: "cakephp_version"
+      prompt: "What version of CakePHP do you want to deploy? (2 or 3)?"
+      default: "3"
 
   roles:
     - system
     - php
-    - bennojoy.nginx
+    - repleo.nginx
     - percona
     - postgresql
     - redis
     - memcached
-    - phpmyadmin
     - cakephp
