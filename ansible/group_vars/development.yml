@@ -12,11 +12,11 @@ nginx_sites:
     locations:
       - name: /
         lines:
-          - try_files: "$uri $uri/ /index.html"
+          - "try_files: $uri $uri/ /index.html"
       - name: /images/
         lines:
-          - root: /usr/share
-          - autoindex: "off"
+          - "root: /usr/share"
+          - "autoindex: off"
 
   #CakePHP app server
   - file_name: app
@@ -29,19 +29,17 @@ nginx_sites:
     locations:
       - name: /
         lines:
-          - try_files: "$uri $uri/ /index.php?$uri&$args"
-          - expires: max
-          - access_log: "off"
+          - "try_files: $uri $uri/ /index.php?$uri&$args"
+          - "expires: max"
+          - "access_log: off"
       - name: "~ \\.php$"
         lines:
-          - fastcgi_pass: "unix:/var/run/php/php7.0-fpm.sock"
-          - include: fastcgi_params
+          - "fastcgi_pass: unix:/var/run/php/php7.0-fpm.sock"
+          - "include: fastcgi_params"
 
   # Redirect www.app.dev to app.dev
   - file_name: www.app
     listen: 80
     server_name: www.app.dev
-    locations:
-      - name: /
-        lines:
-          - rewrite: "^ http://app.dev$uri permanent"
+    return: "301 http://app.dev$uri"
+    locations: []
