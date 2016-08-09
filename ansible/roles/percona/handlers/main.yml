@@ -1,7 +1,8 @@
 ---
 - name: set root password percona
-  mysql_user: name=root host={{ item }} password=pass
+  mysql_user: name=root host={{ item }} password=pass priv=*.*:ALL,GRANT state=present
   with_items:
+    - "%"
     - "{{ ansible_hostname }}"
     - 127.0.0.1
     - ::1

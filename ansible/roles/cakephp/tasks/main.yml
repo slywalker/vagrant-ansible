@@ -1,11 +1,6 @@
 ---
-- name: Deploying CakePHP 2.x
-  command: composer -sdev -n create-project friendsofcake/app-template app chdir=/vagrant/apps/ creates=/vagrant/apps/app
-  when: cakephp_version == "2"
-
 - name: Deploying CakePHP 3.x
   command: composer -sdev -n create-project cakephp/app app chdir=/vagrant/apps/ creates=/vagrant/apps/app
-  when: cakephp_version == "3"
 
 - name: Create Symlink
   action: file src=/vagrant/apps/app dest=/vagrant/www state=link
