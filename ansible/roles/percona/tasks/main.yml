@@ -17,3 +17,6 @@
 
 - name: Start Percona Server
   service: name=mysql state=started enabled=true
+
+- name: Set root MySQL password
+  command: mysqladmin -u root password pass

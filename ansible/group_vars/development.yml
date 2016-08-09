@@ -1,5 +1,6 @@
 ---
 nginx_http_params:
+  disable_symlinks: off
   access_log: /var/log/nginx/access.log
   error_log: /var/log/nginx/error.log
 
@@ -12,11 +13,11 @@ nginx_sites:
     locations:
       - name: /
         lines:
-          - "try_files: $uri $uri/ /index.html"
+          - "try_files $uri $uri/ /index.html"
       - name: /images/
         lines:
-          - "root: /usr/share"
-          - "autoindex: off"
+          - "root /usr/share"
+          - "autoindex off"
 
   #CakePHP app server
   - file_name: app
@@ -29,13 +30,13 @@ nginx_sites:
     locations:
       - name: /
         lines:
-          - "try_files: $uri $uri/ /index.php?$uri&$args"
-          - "expires: max"
-          - "access_log: off"
+          - "try_files $uri $uri/ /index.php?$uri&$args"
+          - "expires max"
+          - "access_log off"
       - name: "~ \\.php$"
         lines:
-          - "fastcgi_pass: unix:/var/run/php/php7.0-fpm.sock"
-          - "include: fastcgi_params"
+          - "fastcgi_pass unix:/var/run/php/php7.0-fpm.sock"
+          - "include fastcgi_params"
 
   # Redirect www.app.dev to app.dev
   - file_name: www.app
