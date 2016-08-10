@@ -1,0 +1,26 @@
+---
+# Mailcatcher
+- name: MailCatcher | Packages dependencies
+  apt: name={{ item }} state=latest
+  with_items:
+    - build-essential
+    - software-properties-common
+    - libsqlite3-dev
+    - ruby1.9.1-dev
+  become: yes
+
+- name: MailCatcher | Install mime-types
+  action: command gem install mime-types --version "< 3"
+  become: yes
+
+- name: MailCatcher | Install MailCatcher
+  action: command gem install --conservative mailcatcher || true creates=/usr/local/bin/mailcatcher
+  become: yes
+
+- name: MailCatcher | Configure FPM PHP.ini
+  command: sed -ir "s/;\?sendmail_path =.*/sendmail_path = \/usr\/bin\/env \/usr\/local\/bin\/catchmail/" /etc/php/7.0/fpm/php.ini
+  become: yes
+
+- name: MailCatcher | Configure CLI PHP.ini
+  command: sed -ir "s/;\?sendmail_path =.*/sendmail_path = \/usr\/bin\/env \/usr\/local\/bin\/catchmail/" /etc/php/7.0/cli/php.ini
+  become: yes

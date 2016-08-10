@@ -17,10 +17,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ENV['PYTHONIOENCODING'] = "utf-8"
 
   config.vm.provision "ansible" do |ansible|
-    ansible.limit = 'all'
+    ansible.limit = "all"
     ansible.playbook = "ansible/development.yml"
     ansible.inventory_path = "ansible/hosts"
   end
+
+  config.vm.provision "shell", inline: "mailcatcher --http-ip 192.168.13.37"
 
   config.vm.post_up_message = "\n\nProvisioning is done, visit http://app.dev for your CakePHP application! \n\n(MySQL credentials are root:pass).\n\n"
 end
