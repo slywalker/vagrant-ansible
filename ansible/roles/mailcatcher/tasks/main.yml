@@ -1,20 +1,25 @@
 ---
 # Mailcatcher
 - name: MailCatcher | Packages dependencies
-  apt: name={{ item }} state=latest
+  apt: pkg={{ item }} state=latest
   with_items:
     - build-essential
     - software-properties-common
     - libsqlite3-dev
-    - ruby1.9.1-dev
+    - ruby2.0
+    - ruby2.0-dev
   become: yes
 
-- name: MailCatcher | Install mime-types
-  action: command gem install mime-types --version "< 3"
+- name: Symlink exists for Ruby 2.0
+  file: src=/usr/bin/ruby2.0 dest=/usr/local/bin/ruby state=link
+  become: yes
+
+- name: Symlink exists for Ruby Gems 2.0
+  file: src=/usr/bin/gem2.0 dest=/usr/local/bin/gem state=link
   become: yes
 
 - name: MailCatcher | Install MailCatcher
-  action: command gem install --conservative mailcatcher || true creates=/usr/local/bin/mailcatcher
+  command: gem install mailcatcher
   become: yes
 
 - name: MailCatcher | Configure FPM PHP.ini
