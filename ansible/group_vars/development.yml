@@ -23,7 +23,7 @@ nginx_sites:
   - file_name: app
     listen: 80
     server_name: app.dev
-    root: /vagrant/www/webroot
+    root: /vagrant/www
     access_log: /var/log/nginx/app-access.log
     error_log: /var/log/nginx/app-error.log
     index: index.php
@@ -34,6 +34,15 @@ nginx_sites:
           - "expires max"
           - "access_log off"
       - name: "~ \\.php$"
+        lines:
+          - "fastcgi_pass unix:/var/run/php/php7.0-fpm.sock"
+          - "include fastcgi_params"
+      - name: "~ ^/(.+?)/(.*)$"
+        lines:
+          - "try_files $uri $uri/ /$1/index.php?$2&$args"
+          - "expires max"
+          - "access_log off"
+      - name: "~ ^/(.+?)/(.+\\.php)$"
         lines:
           - "fastcgi_pass unix:/var/run/php/php7.0-fpm.sock"
           - "include fastcgi_params"

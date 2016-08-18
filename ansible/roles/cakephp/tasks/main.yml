@@ -2,8 +2,14 @@
 - name: Deploying CakePHP 3.x
   command: composer -sdev -n create-project cakephp/app app chdir=/vagrant/apps/ creates=/vagrant/apps/app
 
-- name: Create Symlink
-  action: file src=/vagrant/apps/app dest=/vagrant/www state=link
+- name: Find directory
+  find: paths="/vagrant/apps" file_type=directory
+  register: dirs
+
+- name: Create Symlink App
+  file: src=../apps/{{ item.path|basename }}/webroot dest=/vagrant/www/{{ item.path|basename }} state=link
+  with_items:
+    - "{{ dirs.files }}"
   notify:
     - reload nginx
     - restart php-fpm

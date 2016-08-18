@@ -22,7 +22,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.inventory_path = "ansible/hosts"
   end
 
-  config.vm.provision "shell", inline: "mailcatcher --http-ip 192.168.13.37"
+  config.vm.provision "shell", inline: <<-SCRIPT
+    ps cax | grep mailcatcher > /dev/null
+    if [ ! $? -eq 0 ]; then
+      mailcatcher --http-ip 192.168.13.37
+    fi
+  SCRIPT
 
   config.vm.post_up_message = "\n\nProvisioning is done, visit http://app.dev for your CakePHP application! \n\n(MySQL credentials are root:pass).\n\n"
 end
